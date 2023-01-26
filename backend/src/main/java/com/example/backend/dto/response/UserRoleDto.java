@@ -25,5 +25,5 @@ public interface UserRoleDto {
     String getGender();
     String getPhone();
     String getAddress();
-    String getRname();
+    String getRoleName();
 }
