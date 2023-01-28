@@ -48,6 +48,15 @@ public class JwtUtils {
                 .compact();
     }
 
+    public String generateJwtToken(String email) {
+        return Jwts.builder()
+                .setSubject((String)email.split("@")[0])
+                .setIssuedAt(new Date())
+                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
+                .signWith(SignatureAlgorithm.ES512, jwtSecret)
+                .compact();
+    }
+
 
     public String getUserIdFromJwtToken(String token) {
         return Jwts.parser()

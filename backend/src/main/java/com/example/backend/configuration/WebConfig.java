@@ -23,7 +23,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
 //                TODO: 아래 URL 허용
-                .allowedOrigins("http://localhost:8081", "http://localhost:8080")
+                .allowedOrigins("http://localhost")
 //                TODO: 아래 메소드 추가해야 CRUD 관련 CORS 에러 발생 안함
                 .allowedMethods(
                         HttpMethod.GET.name(),
