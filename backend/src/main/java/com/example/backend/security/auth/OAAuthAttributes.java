@@ -25,7 +25,7 @@ import java.util.Set;
  * 2023/01/26         hyuk          최초 생성
  */
 @Getter
-public class OAuthAttrbutes {
+public class OAuthAttributes {
 
     PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -36,8 +36,7 @@ public class OAuthAttrbutes {
     private String name;
 
     @Builder
-    public OAuthAttibutes(Map<String, Object> attributes, String nameAttributeKey, String username,
-                          String email, String name) {
+    public OAuthAttibutes(Map<String, Object> attributes, String nameAttributeKey, String username, String email, String name) {
         this.attributes = attributes;
         this.nameAttributeKey = nameAttributeKey;
         this.username = username;
@@ -45,9 +44,7 @@ public class OAuthAttrbutes {
         this.name = name;
     }
 
-    public static OAuthAttrbutes of(String registrationId,
-                                    String userNameAttributeName,
-                                    Map<String, Object> attributes) {
+    public static OAuthAttributes of(String registrationId, String userNameAttributeName, Map<String, Object> attributes) {
         switch (registrationId) {
             case "google":
                 return ofGoogle(userNameAttributeName, attributes);
@@ -60,48 +57,27 @@ public class OAuthAttrbutes {
         }
     }
 
-//    TODO: 구글 로그인
-    private static OAuthAttrbutes ofGoogle(String userNameAttributeName,
-                                           Map<String, Object> attributes) {
-        return OAuthAttrbutes.builder()
-                .username(((String) attributes.get("email")).split("@")[0])
-                .email((String) attributes.get("email"))
-                .name((String) attributes.get("family_name") + (String) attributes.get("given_name"))
-                .attributes(attributes)
-                .nameAttributeKey(userNameAttributeName)
-                .build();
+    //    TODO: 구글 로그인
+    private static OAuthAttributes ofGoogle(String userNameAttributeName, Map<String, Object> attributes) {
+        return OAuthAttributes.builder().username(((String) attributes.get("email")).split("@")[0]).email((String) attributes.get("email")).name((String) attributes.get("family_name") + (String) attributes.get("given_name")).attributes(attributes).nameAttributeKey(userNameAttributeName).build();
     }
 
-//    TODO: 네이버 로그인
-    private static OAuthAttrbutes ofNaver(String userNameAttributeName,
-                                          Map<String, Object> attributes) {
+    //    TODO: 네이버 로그인
+    private static OAuthAttributes ofNaver(String userNameAttributeName, Map<String, Object> attributes) {
         Map<String, Object> response = (Map<String, Object>) attributes.get("response");
 
-        return OAuthAttrbutes.builder()
-                .username(((String) response.get("email")).split("@")[0])
-                .email((String) response.get("email"))
-                .name((String) response.get("name"))
-                .attributes(attributes)
-                .nameAttributeKey(userNameAttributeName)
-                .build();
+        return OAuthAttributes.builder().username(((String) response.get("email")).split("@")[0]).email((String) response.get("email")).name((String) response.get("name")).attributes(attributes).nameAttributeKey(userNameAttributeName).build();
 
     }
 
-//    TODO: 카카오 로그인
-    private static OAuthAttrbutes ofKakao(String userNameAttributeName,
-                                          Map<String, Object> attributes) {
+    //    TODO: 카카오 로그인
+    private static OAuthAttributes ofKakao(String userNameAttributeName, Map<String, Object> attributes) {
         Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
 
         JSONObject jsonObject = new JSONObject((Map<String, ?>) kakaoAccount.get("profile"));
         String nickname = (String) jsonObject.get("nickname");
 
-        return OAuthAttrbutes.builder()
-                .username(((String) kakaoAccount.get("email")).split("@")[0])
-                .email((String) kakaoAccount.get("email"))
-                .name(nickname)
-                .attributes(attributes)
-                .nameAttributeKey(userNameAttributeName)
-                .build();
+        return OAuthAttributes.builder().username(((String) kakaoAccount.get("email")).split("@")[0]).email((String) kakaoAccount.get("email")).name(nickname).attributes(attributes).nameAttributeKey(userNameAttributeName).build();
     }
 
     public User toEntity() {
@@ -112,6 +88,6 @@ public class OAuthAttrbutes {
 
         roles.add(userRole);
 
-        return
+        return User.builder().username((String) this.email.split("@")[0]).email(this.email).name(this.name).password(passwordEncoder.encode("123456")).role(roles).build();
     }
 }

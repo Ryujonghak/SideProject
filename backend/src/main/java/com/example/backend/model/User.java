@@ -1,9 +1,6 @@
 package com.example.backend.model;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.SQLDelete;
@@ -116,5 +113,34 @@ public class User extends BaseTimeEntity {
         this.phone = phone;
         this.address = address;
         this.gender = gender;
+    }
+
+    @Builder
+    public User(String username, String password, String name, String email, Set<Role> role) {
+        this.username = username;
+        this.password = password;
+        this.name = name;
+        this.email = email;
+        this.role = role;
+    }
+
+    public User update(String name) {
+        this.username = username;
+
+        return this;
+    }
+
+    @Builder
+    public User(Long id, String username, String password, String name, String email, String birth, String phone, String address, String gender, Set<Role> role) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.name = name;
+        this.email = email;
+        this.birth = birth;
+        this.phone = phone;
+        this.address = address;
+        this.gender = gender;
+        this.role = role;
     }
 }
