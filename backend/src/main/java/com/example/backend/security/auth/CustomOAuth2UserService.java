@@ -52,7 +52,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
 
         return new DefaultOAuth2User(
-                Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"),
+                Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")),
                         oAuthAttributes.getAttributes(),
                         oAuthAttributes.getNameAttributeKey());
 //                FIXME: 일단 여기까지 작성했는데 어디가문제인지는 좀 더 찾아봐야할듯
